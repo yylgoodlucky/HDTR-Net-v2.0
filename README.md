@@ -1,7 +1,7 @@
 # HDTR-Net-v2.0
 
 TODO:
-- [x] Demo videos
+- [] Demo videos
 - [x] pre-trained model
 - [x] code for testing
 - [x] code for training

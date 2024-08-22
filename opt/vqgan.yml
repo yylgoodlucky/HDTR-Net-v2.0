@@ -1,0 +1,69 @@
+# general settings
+dpath: '/data/test-db/home/liyongyuan/Datasets/portrait4d_v2'
+filelist: '/data/test-db/home/liyongyuan/Datasets/filelists/portrait4d_v2.txt'
+project_name: 'resize128'
+
+path:
+  net_g: ~
+  net_d: ~
+  state: ~
+
+inter_visualization: 1000
+inter_save_checkpoint: 1000
+inter_printlog: 200
+
+# dataset settings
+dataset:
+  batch_size: 8
+  num_workers: 2
+  resize: 128
+
+# network structures
+network_g:
+  img_size: 128
+  nf: 64
+  ch_mult: [1, 2, 2, 4, 4, 8]
+  quantizer: 'nearest'
+  codebook_size: 512
+
+network_d:
+  nc: 3
+  ndf: 64
+
+# base_lr(4.5e-6)*bach_size(4)
+train:
+  total_epoch: 30000
+  net_g_start_iter: 0
+  net_d_iters: 1
+  net_d_start_iter: 3000
+  manual_seed: 0
+
+  scheduler:
+    type: CosineAnnealingRestartLR
+    periods: [1600000]
+    restart_weights: [1]
+    eta_min: !!float 6e-5 # no lr reduce in official vqgan code
+
+  optim_g:
+    type: Adam
+    lr: !!float 7e-5
+    weight_decay: 0
+    betas: [0.9, 0.99]
+  optim_d:
+    type: Adam
+    lr: !!float 7e-5
+    weight_decay: 0
+    betas: [0.9, 0.99]
+
+  pixel_loss:
+    loss_weight: 1.0
+    reduction: mean
+
+  perceptual_loss:
+    loss_weight: 1.0
+    use_input_norm: true
+    range_norm: true
+
+  gan_loss:
+    gan_type: hinge
+    loss_weight: !!float 1.0 # adaptive_weighting

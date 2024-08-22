@@ -1,0 +1,68 @@
+# general settings
+
+path:
+  net_g: ~
+  net_d: ~
+  state: ~
+
+inter_visualization: 1000
+inter_save_checkpoint: 1000
+inter_printlog: 200
+
+# dataset settings
+dataset:
+  vfhq:
+    dpath: '/data/test-db/home/liyongyuan/Datasets/portrait4d_v2'
+    filelist: '/data/test-db/home/liyongyuan/Datasets/filelists/portrait4d_v2.txt'
+    latent_code: '/data/test-db/home/liyongyuan/CodeFormer/experiments/pretrained_models/vqgan/vfhq_latent_gt_code512.pth'
+
+  # other datasets here...
+
+  batch_size: 1
+  num_workers: 1
+  resize: 128
+
+  use_hflip: true
+  mean: [0.5, 0.5, 0.5]
+  std: [0.5, 0.5, 0.5]
+  out_size: 512
+
+  blur_kernel_size: 41
+  kernel_list: ['iso', 'aniso']
+  kernel_prob: [0.5, 0.5]
+  blur_sigma: [0.1, 10]
+  downsample_range: [0.8, 8]
+  noise_range: [0, 20]
+  jpeg_range: [60, 100]
+
+  # color jitter and gray
+    color_jitter_prob: 0.3
+    color_jitter_shift: 20
+    color_jitter_pt_prob: 0.3
+    gray_prob: 0.01
+
+    
+
+# network structures
+network_g:
+  in_channels: 3
+  nf: 32
+  n_blocks: 2
+  embed_dim: 256
+  ch_mult: [1, 2, 2, 4, 4, 8]
+  resolution: 128
+  attn_resolutions: [16]
+  codebook_size: 512
+  
+  latent_size: 16
+  dim_emb: 256
+  n_head: 8
+  n_layers: 8
+  input_is_latent: False
+  
+  out_size: 128
+  num_style_feat: 256
+  num_mlp: 8
+  channel_multiplier: 2
+  narrow: 1
+  sft_half: True
